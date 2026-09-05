@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários</title>
+</head>
+
+<body>
+    <h1>Usuários cadastrados</h1>
+
+
+    <table style="width: 30%;">
+        <thead style="background-color: blue; color: white;">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Idade</th>
+                <th>Cidade</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+
+            <tr>
+                <td>{{usuario.id}}</td>
+                <td>{{usuario.nome}}</td>
+                <td>{{usuario.email}}</td>
+                <td>{{usuario.idade}}</td>
+                <td>{{usuario.cidade}}</td>
+                <td><a href="/excluir/{{usuario.id}}">Excluir</a></td>
+                <td><a href="/editar/{{usuario.id}}">Editar</a></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>
