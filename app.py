@@ -4,14 +4,24 @@ import sqlite3
 
 app = Flask(__name__)
 
-def ler_dados():
-    with open("dados.json", "r", encoding="utf-8") as arquivo:
-        dados = json.load(arquivo)
-    return dados
-
-def salvar_dados(dados):
-    with open("dados.json","w", encoding="utf-8") as arquivo:
-        json.dump(dados, arquivo, ensure_ascii=False, indent=4)
+def criar_banco():
+    conexao = sqlite3.connect("banco.db")
+    
+    cursor = conexao.cursor()
+    
+    cursor.execute("""                   
+                   CREATE TABLE IF NOT EXISTS usuarios (
+                       id  INTEGER PRIMARY KEY AUTOINCREMENT,
+                       nome TEXT NOT NULL, 
+                       email TEXT NOT NULL,
+                       idade INTEGER,
+                       cidade TEXT                       
+                   )                  
+                   """)
+    conexao.commit()
+    conexao.close()
+    
+criar_banco()
 
 @app.route("/")
 def inicio():
@@ -42,25 +52,19 @@ def cadastro():
         idade = request.form["idade"]
         cidade = request.form["cidade"]
         
-        dados = ler_dados()
+        conexao = sqlite3.connect("banco.db")
         
-        if dados:
-            novo_id = max(usuario["id"] for usuario in dados) + 1
-        else:
-            novo_id = 1
-
-        usuario = {
-            "id":novo_id,
-            "nome": nome, 
-            "email": email,
-            "idade": idade,
-            "cidade":cidade
-        }
+        cursor = conexao.cursor()
         
+        cursor.execute("""
+                       INSERT INTO usuarios (nome, email, idade, cidade)
+                       VALUES (?, ?, ?, ?)
+                       """,
+                       (nome, email, idade, cidade)
+                       )
+        conexao.commit()
         
-        dados.append(usuario)
-        
-        salvar_dados(dados)
+        conexao.close()
         
         mensagem = f"{nome} cadastrado com sucesso"
 
@@ -68,37 +72,47 @@ def cadastro():
 
 @app.route("/usuarios")
 def usuarios():
-    dados = ler_dados()
+      
+    conexao = sqlite3.connect("banco.db")
     
-    return render_template('usuarios.html', usuarios=dados)
+    conexao.row_factory = sqlite3.Row
+    
+    cursor = conexao.cursor()
+    
+    cursor.execute("""
+                   SELECT * FROM usuarios
+                   """)
+    usuarios = cursor.fetchall()
+    
+    conexao.close()
+    
+    return render_template('usuarios.html', usuarios=usuarios)
 
 @app.route("/excluir/<int:id>")
 def excluir(id):
-    dados = ler_dados()
+    conexao = sqlite3.connect("banco.db")
     
-    nova_lista = []
+    cursor = conexao.cursor()
     
-    for usuario in dados:
-        if usuario['id'] != id:
-            nova_lista.append(usuario)
+    cursor.execute(
+        "DELETE FROM usuarios WHERE id = ? ",
+        (id,)
+    )
     
-    salvar_dados(nova_lista)
+    conexao.commit()
+    
+    conexao.close()
     
     return redirect("/usuarios")
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar(id):
-    dados = ler_dados()
     
-    usuario_encontrado = None
+    conexao = sqlite3.connect("banco.db")
     
-    for usuario in dados:
-        if usuario["id"] == id:
-            usuario_encontrado = usuario
-            break
+    conexao.row_factory = sqlite3.Row
     
-    if usuario_encontrado is None:
-        return "Usuário não encontrado"
+    cursor = conexao.cursor()
     
     if request.method == "POST":
         
@@ -107,16 +121,30 @@ def editar(id):
         idade = request.form["idade"]
         cidade = request.form["cidade"]
         
-        usuario_encontrado["nome"] = nome
-        usuario_encontrado["email"] = email
-        usuario_encontrado["idade"] = idade
-        usuario_encontrado["cidade"] = cidade
+        cursor.execute("""
+                       UPDATE usuarios 
+                       SET nome = ?, email = ?, idade = ?, cidade = ?
+                       WHERE id = ?
+            """, (nome, email, idade, cidade, id)
+        )
         
-        salvar_dados(dados)
+        conexao.commit()
+        conexao.close()
         
         return redirect("/usuarios")
+    
+    cursor.execute(
+        "SELECT * FROM usuarios WHERE id = ?",
+        (id,)
+    )
+    usuario = cursor.fetchone()
+    
+    conexao.close()
+    
+    if usuario is None:
+        return "Usuário não encontrado"
         
-    return render_template("editar.html", usuario=usuario_encontrado)
+    return render_template("editar.html", usuario=usuario)
         
 
 if __name__ == "__main__":
