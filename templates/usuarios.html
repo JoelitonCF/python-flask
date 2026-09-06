@@ -10,8 +10,12 @@
 <body>
     <h1>Usuários cadastrados</h1>
 
+    <a href="{{ url_for('usuarios.cadastro') }}">
+        Novo usuário
+    </a>
+<br><br>
 
-    <table style="width: 30%;">
+    <table style="width: 30%" border="1">
         <thead style="background-color: blue; color: white;">
             <tr>
                 <th>ID</th>
@@ -31,8 +35,8 @@
                 <td>{{usuario.email}}</td>
                 <td>{{usuario.idade}}</td>
                 <td>{{usuario.cidade}}</td>
-                <td><a href="/excluir/{{usuario.id}}">Excluir</a></td>
-                <td><a href="/editar/{{usuario.id}}">Editar</a></td>
+                <td><a href="{{ url_for('usuarios.editar', id=usuario.id) }}">Editar</a></td>
+                <td><a href="{{ url_for('usuarios.excluir', id=usuario.id) }}">Excluir</a></td>
 
             </tr>
             {% endfor %}

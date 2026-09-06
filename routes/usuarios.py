@@ -1,12 +1,13 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, url_for
 from banco import listar_usuarios, inserir_usuario, excluir_usuario, atualizar_usuario, buscar_usuario
 
 usuarios_bp = Blueprint(
     "usuarios",
-    __name__
+    __name__,
+    url_prefix="/usuarios"
 )
 
-@usuarios_bp.route("/usuarios")
+@usuarios_bp.route("/")
 def usuarios():
       
     lista = listar_usuarios()
@@ -38,7 +39,9 @@ def excluir(id):
     
     excluir_usuario(id)
     
-    return redirect("/usuarios")
+    return redirect(
+        url_for("usuarios.usuarios")
+    )
 
 
 @usuarios_bp.route("/editar/<int:id>", methods=["GET", "POST"])
@@ -56,7 +59,9 @@ def editar(id):
         atualizar_usuario(nome,email, idade, cidade, id)
         
         
-        return redirect("/usuarios")
+        return redirect(
+            url_for("usuarios.usuarios")
+        )
     
     usuario = buscar_usuario(id)
     
