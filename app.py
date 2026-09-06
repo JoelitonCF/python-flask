@@ -1,25 +1,9 @@
 from flask import Flask, render_template, request, redirect
-import json
-import sqlite3
+from banco import conectar, criar_banco, listar_usuarios, inserir_usuario, excluir_usuario, atualizar_usuario,buscar_usuario
 
 app = Flask(__name__)
 
-def criar_banco():
-    conexao = sqlite3.connect("banco.db")
-    
-    cursor = conexao.cursor()
-    
-    cursor.execute("""                   
-                   CREATE TABLE IF NOT EXISTS usuarios (
-                       id  INTEGER PRIMARY KEY AUTOINCREMENT,
-                       nome TEXT NOT NULL, 
-                       email TEXT NOT NULL,
-                       idade INTEGER,
-                       cidade TEXT                       
-                   )                  
-                   """)
-    conexao.commit()
-    conexao.close()
+
     
 criar_banco()
 
@@ -52,19 +36,9 @@ def cadastro():
         idade = request.form["idade"]
         cidade = request.form["cidade"]
         
-        conexao = sqlite3.connect("banco.db")
-        
-        cursor = conexao.cursor()
-        
-        cursor.execute("""
-                       INSERT INTO usuarios (nome, email, idade, cidade)
-                       VALUES (?, ?, ?, ?)
-                       """,
-                       (nome, email, idade, cidade)
-                       )
-        conexao.commit()
-        
-        conexao.close()
+        inserir_usuario(
+            nome, email, idade, cidade
+        )
         
         mensagem = f"{nome} cadastrado com sucesso"
 
@@ -73,46 +47,21 @@ def cadastro():
 @app.route("/usuarios")
 def usuarios():
       
-    conexao = sqlite3.connect("banco.db")
+    lista = listar_usuarios()
     
-    conexao.row_factory = sqlite3.Row
-    
-    cursor = conexao.cursor()
-    
-    cursor.execute("""
-                   SELECT * FROM usuarios
-                   """)
-    usuarios = cursor.fetchall()
-    
-    conexao.close()
-    
-    return render_template('usuarios.html', usuarios=usuarios)
+    return render_template('usuarios.html', usuarios=lista)
 
 @app.route("/excluir/<int:id>")
 def excluir(id):
-    conexao = sqlite3.connect("banco.db")
     
-    cursor = conexao.cursor()
-    
-    cursor.execute(
-        "DELETE FROM usuarios WHERE id = ? ",
-        (id,)
-    )
-    
-    conexao.commit()
-    
-    conexao.close()
+    excluir_usuario(id)
     
     return redirect("/usuarios")
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar(id):
     
-    conexao = sqlite3.connect("banco.db")
     
-    conexao.row_factory = sqlite3.Row
-    
-    cursor = conexao.cursor()
     
     if request.method == "POST":
         
@@ -121,25 +70,12 @@ def editar(id):
         idade = request.form["idade"]
         cidade = request.form["cidade"]
         
-        cursor.execute("""
-                       UPDATE usuarios 
-                       SET nome = ?, email = ?, idade = ?, cidade = ?
-                       WHERE id = ?
-            """, (nome, email, idade, cidade, id)
-        )
+        atualizar_usuario(nome,email, idade, cidade, id)
         
-        conexao.commit()
-        conexao.close()
         
         return redirect("/usuarios")
     
-    cursor.execute(
-        "SELECT * FROM usuarios WHERE id = ?",
-        (id,)
-    )
-    usuario = cursor.fetchone()
-    
-    conexao.close()
+    usuario = buscar_usuario(id)
     
     if usuario is None:
         return "Usuário não encontrado"
