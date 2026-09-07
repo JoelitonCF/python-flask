@@ -13,7 +13,7 @@
     <a href="{{ url_for('usuarios.cadastro') }}">
         Novo usuário
     </a>
-<br><br>
+    <br><br>
 
     <table style="width: 30%" border="1">
         <thead style="background-color: blue; color: white;">
@@ -35,8 +35,15 @@
                 <td>{{usuario.email}}</td>
                 <td>{{usuario.idade}}</td>
                 <td>{{usuario.cidade}}</td>
-                <td><a href="{{ url_for('usuarios.editar', id=usuario.id) }}">Editar</a></td>
-                <td><a href="{{ url_for('usuarios.excluir', id=usuario.id) }}">Excluir</a></td>
+                <td>
+                    <a href="{{ url_for('usuarios.editar', id=usuario.id) }}">Editar</a>
+                    <form action="{{ url_for('usuarios.excluir', id=usuario.id) }}" method="POST"
+                        style="display: inline;"
+                        onsubmit="return confirm('Deseja realmente excluir este usuário?')">
+                        <button type="submit">Excluir</button>
+                    </form>
+                </td>
+
 
             </tr>
             {% endfor %}

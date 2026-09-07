@@ -34,7 +34,7 @@ def cadastro():
 
     return render_template("cadastro.html", mensagem=mensagem)
 
-@usuarios_bp.route("/excluir/<int:id>")
+@usuarios_bp.route("/excluir/<int:id>", methods=["POST"])
 def excluir(id):
     
     excluir_usuario(id)
