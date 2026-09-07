@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, redirect
 from banco import  criar_banco
 from routes.usuarios import usuarios_bp
+from routes.auth import auth_bp
 
 app = Flask(__name__)
 app.secret_key = "minha-chave-secreta"
+
 app.register_blueprint(usuarios_bp)
+app.register_blueprint(auth_bp)
    
 criar_banco()
 
