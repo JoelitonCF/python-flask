@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from banco import listar_usuarios, inserir_usuario, excluir_usuario, atualizar_usuario, buscar_usuario, buscar_por_email
 
 usuarios_bp = Blueprint(
@@ -49,7 +49,12 @@ def cadastro():
                     nome, email, idade, cidade
                 )
         
-                mensagem = f"{nome} cadastrado com sucesso"
+                # mensagem = f"{nome} cadastrado com sucesso"
+                flash("Usuário cadastrado com sucesso!", "success")
+                
+                return redirect(
+                    url_for("usuarios.usuarios")
+                )
 
     return render_template("cadastro.html", mensagem=mensagem)
 
@@ -57,6 +62,8 @@ def cadastro():
 def excluir(id):
     
     excluir_usuario(id)
+    
+    flash("Usuário excluído com sucesso!", "success")
     
     return redirect(
         url_for("usuarios.usuarios")
@@ -77,6 +84,7 @@ def editar(id):
         
         atualizar_usuario(nome,email, idade, cidade, id)
         
+        flash("Usuário atualizado com sucesso!", "success")
         
         return redirect(
             url_for("usuarios.usuarios")

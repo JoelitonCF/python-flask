@@ -8,6 +8,21 @@
 </head>
 
 <body>
+
+    {% with mensagens = get_flashed_messages() %}
+
+    {% if mensagens %}
+
+    {% for mensagem in mensagens %}
+
+    <p class="{{categoria}}">{{mensagem}}</p>
+
+    {% endfor %}
+
+    {% endif %}
+
+    {% endwith %}
+
     <h1>Usuários cadastrados</h1>
 
     <a href="{{ url_for('usuarios.cadastro') }}">
@@ -38,8 +53,7 @@
                 <td>
                     <a href="{{ url_for('usuarios.editar', id=usuario.id) }}">Editar</a>
                     <form action="{{ url_for('usuarios.excluir', id=usuario.id) }}" method="POST"
-                        style="display: inline;"
-                        onsubmit="return confirm('Deseja realmente excluir este usuário?')">
+                        style="display: inline;" onsubmit="return confirm('Deseja realmente excluir este usuário?')">
                         <button type="submit">Excluir</button>
                     </form>
                 </td>

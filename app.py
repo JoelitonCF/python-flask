@@ -3,6 +3,7 @@ from banco import  criar_banco
 from routes.usuarios import usuarios_bp
 
 app = Flask(__name__)
+app.secret_key = "minha-chave-secreta"
 app.register_blueprint(usuarios_bp)
    
 criar_banco()
