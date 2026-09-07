@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from banco import listar_usuarios, inserir_usuario, excluir_usuario, atualizar_usuario, buscar_usuario
+from banco import listar_usuarios, inserir_usuario, excluir_usuario, atualizar_usuario, buscar_usuario, buscar_por_email
 
 usuarios_bp = Blueprint(
     "usuarios",
@@ -21,16 +21,35 @@ def cadastro():
     
     if request.method == "POST":
 
-        nome = request.form["nome"]
-        email = request.form["email"]
-        idade = request.form["idade"]
-        cidade = request.form["cidade"]
+        nome = request.form["nome"].strip()
+        email = request.form["email"].strip()
+        idade = request.form["idade"].strip()
+        cidade = request.form["cidade"].strip()
         
-        inserir_usuario(
-            nome, email, idade, cidade
-        )
+        if not nome or not email or not idade or not cidade:
+            mensagem = "Preencha todos os campos"
         
-        mensagem = f"{nome} cadastrado com sucesso"
+        elif "@" not in email:
+            mensagem = "Email inválido"
+            
+        elif not idade.isdigit():
+            mensagem = "A idade deve ser em número"
+        
+        elif buscar_por_email(email):
+            mensagem = "Este email já esta cadastrado"
+        
+        else:
+            idade = int(idade)
+            
+            if idade < 0:
+                mensagem = "A idade deve ser menor que zero"
+            else:
+                
+                inserir_usuario(
+                    nome, email, idade, cidade
+                )
+        
+                mensagem = f"{nome} cadastrado com sucesso"
 
     return render_template("cadastro.html", mensagem=mensagem)
 

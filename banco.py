@@ -16,7 +16,7 @@ def criar_banco():
                    CREATE TABLE IF NOT EXISTS usuarios (
                        id  INTEGER PRIMARY KEY AUTOINCREMENT,
                        nome TEXT NOT NULL, 
-                       email TEXT NOT NULL,
+                       email TEXT NOT NULL UNIQUE,
                        idade INTEGER,
                        cidade TEXT                       
                    )                  
@@ -94,3 +94,19 @@ def excluir_usuario(id):
     conexao.commit()
     
     conexao.close()
+
+def buscar_por_email(email):
+    conexao = conectar()
+    
+    cursor = conexao.cursor()
+    
+    cursor.execute(
+        "SELECT * FROM usuarios WHERE email = ?",
+        (email,)
+    )
+    
+    usuario = cursor.fetchone()
+    
+    conexao.close()
+    
+    return usuario
