@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}Meu Sistema{% endblock %}</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>Meu Sistema Flask</h1>
+
+        <nav>
+            <a href="{{ url_for('inicio') }}">
+                Início
+            </a>
+
+            {% if session.get("conta_id") %}
+
+                <a href="{{ url_for('usuarios.usuarios') }}">
+                    Usuários
+                </a>
+
+                <a href="{{ url_for('usuarios.cadastro') }}">
+                    Cadastrar
+                </a>
+
+                <form
+                    action="{{ url_for('auth.logout') }}"
+                    method="POST"
+                    style="display: inline;"
+                >
+                    <button type="submit">
+                        Sair
+                    </button>
+                </form>
+
+            {% else %}
+
+                <a href="{{ url_for('auth.login') }}">
+                    Login
+                </a>
+
+                <a href="{{ url_for('auth.criar_conta') }}">
+                    Criar conta
+                </a>
+
+            {% endif %}
+        </nav>
+    </header>
+
+
+    <hr>
+
+
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+
+        {% if mensagens %}
+
+            {% for categoria, mensagem in mensagens %}
+
+                <p class="{{ categoria }}">
+                    {{ mensagem }}
+                </p>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <main>
+
+        {% block conteudo %}
+
+        {% endblock %}
+
+    </main>
+
+</body>
+
+</html>

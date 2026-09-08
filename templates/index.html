@@ -1,15 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Sistema</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <h1>Bem vindo, {{nome}}</h1>
-    <p>Curso: {{curso}}</p>
-    <p>Aula: {{aula}}</p>
-<button>Clique aqui</button>
-</body>
-</html>
+
+{% block titulo %}
+
+    Início
+
+{% endblock %}
+
+
+{% block conteudo %}
+
+    <h2>Bem-vindo ao sistema</h2>
+
+    {% if session.get("conta_nome") %}
+
+        <p>
+            Olá, {{ session.get("conta_nome") }}.
+        </p>
+
+    {% else %}
+
+        <p>
+            Faça login para acessar o sistema.
+        </p>
+
+    {% endif %}
+
+{% endblock %}

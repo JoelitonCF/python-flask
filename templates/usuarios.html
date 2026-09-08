@@ -1,69 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuários</title>
-</head>
+{% block titulo %}
+Usuários
+{% endblock %}
 
-<body>
+{% block conteudo %}
 
-    {% with mensagens = get_flashed_messages() %}
+<h2>Usuários cadastrados</h2>
 
-    {% if mensagens %}
+<table style="width: 40%" border="1">
+    <thead style="background-color: blue; color: white;">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Idade</th>
+            <th>Cidade</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in usuarios %}
 
-    {% for mensagem in mensagens %}
-
-    <p class="{{categoria}}">{{mensagem}}</p>
-
-    {% endfor %}
-
-    {% endif %}
-
-    {% endwith %}
-
-    <h1>Usuários cadastrados</h1>
-
-    <a href="{{ url_for('usuarios.cadastro') }}">
-        Novo usuário
-    </a>
-    <br><br>
-
-    <table style="width: 40%" border="1">
-        <thead style="background-color: blue; color: white;">
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Idade</th>
-                <th>Cidade</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for usuario in usuarios %}
-
-            <tr>
-                <td>{{usuario.id}}</td>
-                <td>{{usuario.nome}}</td>
-                <td>{{usuario.email}}</td>
-                <td>{{usuario.idade}}</td>
-                <td>{{usuario.cidade}}</td>
-                <td>
-                    <a href="{{ url_for('usuarios.editar', id=usuario.id) }}">Editar</a>
-                    <form action="{{ url_for('usuarios.excluir', id=usuario.id) }}" method="POST"
-                        style="display: inline;" onsubmit="return confirm('Deseja realmente excluir este usuário?')">
-                        <button type="submit">Excluir</button>
-                    </form>
-                </td>
+        <tr>
+            <td>{{usuario.id}}</td>
+            <td>{{usuario.nome}}</td>
+            <td>{{usuario.email}}</td>
+            <td>{{usuario.idade}}</td>
+            <td>{{usuario.cidade}}</td>
+            <td>
+                <a href="{{ url_for('usuarios.editar', id=usuario.id) }}">Editar</a>
+                <form action="{{ url_for('usuarios.excluir', id=usuario.id) }}" method="POST" style="display: inline;"
+                    onsubmit="return confirm('Deseja realmente excluir este usuário?')">
+                    <button type="submit">Excluir</button>
+                </form>
+            </td>
 
 
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-</body>
-
-</html>
+{% endblock %}
