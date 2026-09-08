@@ -8,7 +8,7 @@ Usuários
 
 <h2>Usuários cadastrados</h2>
 
-<table style="width: 40%" border="1">
+<table class="tabela">
     <thead style="background-color: blue; color: white;">
         <tr>
             <th>ID</th>
@@ -29,10 +29,10 @@ Usuários
             <td>{{usuario.idade}}</td>
             <td>{{usuario.cidade}}</td>
             <td>
-                <a href="{{ url_for('usuarios.editar', id=usuario.id) }}">Editar</a>
-                <form action="{{ url_for('usuarios.excluir', id=usuario.id) }}" method="POST" style="display: inline;"
+                <a href="{{ url_for('usuarios.editar', id=usuario.id) }}" class="botao botao-editar" style="text-decoration: none;">Editar</a>
+                <form action="{{ url_for('usuarios.excluir', id=usuario.id) }}" method="POST" class="form-excluir""
                     onsubmit="return confirm('Deseja realmente excluir este usuário?')">
-                    <button type="submit">Excluir</button>
+                    <button type="submit" class="botao botao-excluir">Excluir</button>
                 </form>
             </td>
 

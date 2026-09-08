@@ -1,0 +1,135 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #222;
+    color: white;
+    padding: 20px;
+}
+
+main {
+    padding: 30px;
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+nav form {
+    margin: 0;
+}
+
+
+/* FORMULÁRIOS */
+
+.formulario {
+    max-width: 400px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.formulario label {
+    display: block;
+    margin-top: 10px;
+}
+
+.formulario input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.formulario button {
+    margin-top: 20px;
+}
+
+
+/* TABELA */
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.tabela th,
+.tabela td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    color: #222;
+}
+
+.tabela th {
+    background-color: #eee;
+}
+
+
+/* BOTÕES */
+
+.botao {
+    display: inline-block;
+    padding: 8px 12px;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.botao-editar {
+    background-color: #ffc107;
+}
+
+.botao-excluir {
+    background-color: #dc3545;
+    color: white;
+}
+
+.botao-novo {
+    background-color: #28a745;
+    color: white;
+}
+
+.form-excluir {
+    display: inline;
+}
+
+
+/* MENSAGENS */
+
+.success {
+    background-color: #b2f3c1;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.error {
+    background-color: #f3c3c7;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.warning {
+    background-color: #efe7cc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}

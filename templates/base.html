@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <title>{% block titulo %}Meu Sistema{% endblock %}</title>
 </head>
 
@@ -18,33 +19,29 @@
 
             {% if session.get("conta_id") %}
 
-                <a href="{{ url_for('usuarios.usuarios') }}">
-                    Usuários
-                </a>
+            <a href="{{ url_for('usuarios.usuarios') }}">
+                Usuários
+            </a>
 
-                <a href="{{ url_for('usuarios.cadastro') }}">
-                    Cadastrar
-                </a>
+            <a href="{{ url_for('usuarios.cadastro') }}">
+                Cadastrar
+            </a>
 
-                <form
-                    action="{{ url_for('auth.logout') }}"
-                    method="POST"
-                    style="display: inline;"
-                >
-                    <button type="submit">
-                        Sair
-                    </button>
-                </form>
+            <form action="{{ url_for('auth.logout') }}" method="POST" >
+                <button type="submit" >
+                    Sair
+                </button>
+            </form>
 
             {% else %}
 
-                <a href="{{ url_for('auth.login') }}">
-                    Login
-                </a>
+            <a href="{{ url_for('auth.login') }}">
+                Login
+            </a>
 
-                <a href="{{ url_for('auth.criar_conta') }}">
-                    Criar conta
-                </a>
+            <a href="{{ url_for('auth.criar_conta') }}">
+                Criar conta
+            </a>
 
             {% endif %}
         </nav>
@@ -56,17 +53,17 @@
 
     {% with mensagens = get_flashed_messages(with_categories=true) %}
 
-        {% if mensagens %}
+    {% if mensagens %}
 
-            {% for categoria, mensagem in mensagens %}
+    {% for categoria, mensagem in mensagens %}
 
-                <p class="{{ categoria }}">
-                    {{ mensagem }}
-                </p>
+    <p class="{{ categoria }}">
+        {{ mensagem }}
+    </p>
 
-            {% endfor %}
+    {% endfor %}
 
-        {% endif %}
+    {% endif %}
 
     {% endwith %}
 
