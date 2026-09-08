@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from banco import listar_usuarios, inserir_usuario, excluir_usuario, atualizar_usuario, buscar_usuario, buscar_por_email
+from auth_utils import login_required
 
 usuarios_bp = Blueprint(
     "usuarios",
@@ -7,7 +8,8 @@ usuarios_bp = Blueprint(
     url_prefix="/usuarios"
 )
 
-@usuarios_bp.route("/")
+@usuarios_bp.route("/usuarios")
+@login_required
 def usuarios():
       
     lista = listar_usuarios()
@@ -15,6 +17,7 @@ def usuarios():
     return render_template('usuarios.html', usuarios=lista)
 
 @usuarios_bp.route("/cadastro", methods=["GET", "POST"])
+@login_required
 def cadastro():
     mensagem = None
    
@@ -59,6 +62,7 @@ def cadastro():
     return render_template("cadastro.html", mensagem=mensagem)
 
 @usuarios_bp.route("/excluir/<int:id>", methods=["POST"])
+@login_required
 def excluir(id):
     
     excluir_usuario(id)
@@ -71,6 +75,7 @@ def excluir(id):
 
 
 @usuarios_bp.route("/editar/<int:id>", methods=["GET", "POST"])
+@login_required
 def editar(id):
     
     

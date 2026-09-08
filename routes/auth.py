@@ -49,7 +49,7 @@ def login():
 
     if request.method == "POST":
 
-        email = request.form["email"]
+        email = request.form["email"].strip()
         senha = request.form["senha"]
 
         conta = buscar_conta_por_email(email)
@@ -87,18 +87,19 @@ def login():
             url_for("usuarios.usuarios")
         )
 
-    render_template("login.html")
+    return render_template("login.html")
 
-auth_bp.route("/logout")
+
+@auth_bp.route("/logout")
 def logout():
-    
+
     session.clear()
-    
+
     flash(
         "Logout realizado com sucesso.",
         "success"
     )
-    
+
     return redirect(
         url_for("auth.login")
     )
