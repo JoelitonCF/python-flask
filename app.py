@@ -27,5 +27,17 @@ def sobre():
 def contato():
     return render_template('contato.html')
 
+@app.errorhandler(404)
+def pagina_nao_encontrada(erro):
+    return render_template("404.html"), 404
+
+@app.errorhandler(405)
+def metodo_nao_permitido(erro):
+    return render_template("405.html"), 405
+
+@app.errorhandler(500)
+def erro_interno(erro):
+    return render_template("500.html"), 500
+
 if __name__ == "__main__":
     app.run(debug=True)

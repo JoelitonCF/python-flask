@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block titulo %}
+    Método não permitido
+{% endblock %}
+
+
+{% block conteudo %}
+
+    <h2>405 - Método não permitido</h2>
+
+    <p>
+        Esta operação não é permitida desta forma.
+    </p>
+
+    <a href="{{ url_for('inicio') }}">
+        Voltar para o início
+    </a>
+
+{% endblock %}
