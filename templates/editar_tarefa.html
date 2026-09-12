@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+
+{% block titulo %}
+    Editar tarefa
+{% endblock %}
+
+
+{% block conteudo %}
+
+    <h2>Editar tarefa</h2>
+
+    <form
+        method="POST"
+        class="formulario"
+    >
+
+        <label>
+            Título:
+        </label>
+
+        <input
+            type="text"
+            name="titulo"
+            value="{{ tarefa.titulo }}"
+            required
+        >
+
+
+        <label>
+            Responsável:
+        </label>
+
+        <select
+            name="usuario_id"
+            required
+        >
+
+            {% for usuario in usuarios %}
+
+                <option
+                    value="{{ usuario.id }}"
+
+                    {% if usuario.id == tarefa.usuario_id %}
+                        selected
+                    {% endif %}
+                >
+
+                    {{ usuario.nome }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <button type="submit">
+            Salvar alterações
+        </button>
+
+    </form>
+
+{% endblock %}
