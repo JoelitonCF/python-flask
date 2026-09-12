@@ -1,10 +1,24 @@
-from flask import Flask, render_template, request, redirect
+import os
+from flask import Flask, render_template
+
+from dotenv import load_dotenv
+
 from banco import  criar_banco
 from routes.usuarios import usuarios_bp
 from routes.auth import auth_bp
 
+load_dotenv()
+
 app = Flask(__name__)
-app.secret_key = "minha-chave-secreta"
+
+secret_key = os.getenv("SECRET_KEY")
+
+if not secret_key:
+    raise RuntimeError(
+        "A variável SECRET_KEY não foi configurada."
+    )
+
+app.config["SECRET_KEY"] = secret_key
 
 app.register_blueprint(usuarios_bp)
 app.register_blueprint(auth_bp)
