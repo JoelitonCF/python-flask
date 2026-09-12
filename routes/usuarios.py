@@ -50,16 +50,20 @@ def cadastro():
                 mensagem = "A idade deve ser menor que zero"
             else:
 
-                inserir_usuario(
+                sucesso = inserir_usuario(
                     nome, email, idade, cidade
                 )
+                
+                if sucesso:
+                    
+                    flash("Usuário cadastrado com sucesso!", "success")
 
-                # mensagem = f"{nome} cadastrado com sucesso"
-                flash("Usuário cadastrado com sucesso!", "success")
-
-                return redirect(
-                    url_for("usuarios.usuarios")
-                )
+                    return redirect(
+                        url_for("usuarios.usuarios")
+                    )
+                else:
+                    flash("Não foi possivel cadastrar o usuário.", "error")
+                    
 
     return render_template("cadastro.html", mensagem=mensagem)
 

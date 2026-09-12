@@ -53,17 +53,37 @@ def listar_usuarios():
 def inserir_usuario(nome, email, idade, cidade):
     conexao = conectar()
 
-    cursor = conexao.cursor()
+    try:
+        cursor = conexao.cursor()
 
-    cursor.execute("""
-                    INSERT INTO usuarios (nome, email, idade, cidade)
-                    VALUES (?, ?, ?, ?)
-                    """,
-                   (nome, email, idade, cidade)
-                   )
-    conexao.commit()
+        cursor.execute("""
+            INSERT INTO usuarios
+                (nome, email, idade, cidade)
+            VALUES (?, ?, ?, ?)
+        """, (
+            nome,
+            email,
+            idade,
+            cidade
+        ))
 
-    conexao.close()
+        conexao.commit()
+
+        return True
+
+    except sqlite3.Error as erro:
+
+        conexao.rollback()
+
+        print(
+            "Erro ao inserir usuário:",
+            erro
+        )
+
+        return False
+
+    finally:
+        conexao.close()
 
 
 def buscar_usuario(id):
@@ -136,21 +156,22 @@ def inserir_conta(nome, email, senha):
                    INSERT INTO contas (nome, email, senha)
                    VALUES (?, ?, ?)
                    """, (nome, email, senha))
-    
+
     conexao.commit()
     conexao.close()
-    
+
+
 def buscar_conta_por_email(email):
     conexao = conectar()
     cursor = conexao.cursor()
-    
+
     cursor.execute(
         "SELECT * FROM contas WHERE email = ?",
         (email,)
     )
-    
+
     conta = cursor.fetchone()
-    
+
     conexao.close()
-    
+
     return conta
