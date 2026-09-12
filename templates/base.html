@@ -27,6 +27,10 @@
                 Cadastrar
             </a>
 
+            <a href="{{ url_for('tarefas.tarefas') }}">
+                Tarefas
+            </a>
+
             <form action="{{ url_for('auth.logout') }}" method="POST" >
                 <button type="submit" >
                     Sair

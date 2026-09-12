@@ -48,7 +48,8 @@ nav form {
     margin-top: 10px;
 }
 
-.formulario input {
+.formulario input,
+.formulario select {
     width: 100%;
     padding: 8px;
     margin-top: 5px;

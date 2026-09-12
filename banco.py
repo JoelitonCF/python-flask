@@ -41,7 +41,7 @@ def criar_banco():
                    CREATE TABLE IF NOT EXISTS tarefas (
                        id INTEGER PRIMARY KEY AUTOINCREMENT, 
                        titulo TEXT NOT NULL,
-                       usuario_id INTEGER NOT NULL
+                       usuario_id INTEGER NOT NULL,
                        
                        FOREIGN KEY (usuario_id)
                        REFERENCES usuarios(id)

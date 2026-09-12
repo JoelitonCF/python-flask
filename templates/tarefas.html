@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+
+{% block titulo %}
+    Tarefas
+{% endblock %}
+
+
+{% block conteudo %}
+
+    <h2>Tarefas</h2>
+
+    <a
+        href="{{ url_for('tarefas.cadastrar') }}"
+        class="botao botao-novo"
+    >
+        Nova tarefa
+    </a>
+
+    <br><br>
+
+    <table class="tabela">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tarefa</th>
+                <th>Responsável</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for tarefa in tarefas %}
+
+                <tr>
+                    <td>{{ tarefa.id }}</td>
+
+                    <td>
+                        {{ tarefa.titulo }}
+                    </td>
+
+                    <td>
+                        {{ tarefa.usuario_nome }}
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+{% endblock %}

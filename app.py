@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from banco import  criar_banco
 from routes.usuarios import usuarios_bp
 from routes.auth import auth_bp
+from routes.tarefas import tarefas_bp
 
 load_dotenv()
 
@@ -22,6 +23,7 @@ app.config["SECRET_KEY"] = secret_key
 
 app.register_blueprint(usuarios_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(tarefas_bp)
    
 criar_banco()
 
