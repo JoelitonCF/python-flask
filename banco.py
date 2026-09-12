@@ -4,6 +4,10 @@ import sqlite3
 def conectar():
     conexao = sqlite3.connect("banco.db")
     conexao.row_factory = sqlite3.Row
+    
+    conexao.execute(
+        "PRAGMA foreign_keys = ON"
+    )
 
     return conexao
 
@@ -29,6 +33,18 @@ def criar_banco():
                        nome TEXT NOT NULL,
                        email TEXT NOT NULL UNIQUE,
                        senha TEXT NOT NULL
+                   )
+                   """)
+    
+    cursor.execute("""
+                   
+                   CREATE TABLE IF NOT EXISTS tarefas (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                       titulo TEXT NOT NULL,
+                       usuario_id INTEGER NOT NULL
+                       
+                       FOREIGN KEY (usuario_id)
+                       REFERENCES usuarios(id)
                    )
                    """)
     conexao.commit()
@@ -175,3 +191,59 @@ def buscar_conta_por_email(email):
     conexao.close()
 
     return conta
+
+def inserir_tarefa(titulo, usuario_id):
+    conexao = conectar()
+
+    try:
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            INSERT INTO tarefas
+                (titulo, usuario_id)
+            VALUES (?, ?)
+        """, (
+            titulo,
+            usuario_id
+        ))
+
+        conexao.commit()
+
+        return True
+
+    except sqlite3.Error as erro:
+
+        conexao.rollback()
+
+        print(
+            "Erro ao inserir tarefa:",
+            erro
+        )
+
+        return False
+
+    finally:
+        conexao.close()
+        
+
+def listar_tarefas():
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT
+            tarefas.id,
+            tarefas.titulo,
+            usuarios.nome AS usuario_nome
+
+        FROM tarefas
+
+        JOIN usuarios
+            ON tarefas.usuario_id = usuarios.id
+    """)
+
+    tarefas = cursor.fetchall()
+
+    conexao.close()
+
+    return tarefas
