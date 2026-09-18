@@ -1,3 +1,4 @@
+import math
 from flask import (
     Blueprint,
     render_template,
@@ -18,7 +19,11 @@ from banco import (
     buscar_tarefa,
     atualizar_tarefa,
     excluir_tarefa,
-    buscar_tarefas
+    buscar_tarefas,
+    listar_tarefas_paginadas,
+    contar_tarefas,
+    contar_tarefas_busca,
+    buscar_tarefas_paginadas
 )
 
 tarefas_bp = Blueprint(
@@ -26,25 +31,65 @@ tarefas_bp = Blueprint(
     __name__
 )
 
+
 @tarefas_bp.route("/tarefas")
 @login_required
 def tarefas():
-    
+
     busca = request.args.get(
-        "busca",""
+        "busca",
+        ""
     ).strip()
-    print(busca)
+
+    pagina = request.args.get(
+        "pagina",
+        1,
+        type=int
+    )
+
+    if pagina < 1:
+        pagina = 1
+
+    por_pagina = 5
+
+    offset = (
+        pagina - 1
+    ) * por_pagina
+
     if busca:
-        lista = buscar_tarefas(busca)
+
+        total = contar_tarefas_busca(
+            busca
+        )
+
+        lista = buscar_tarefas_paginadas(
+            busca,
+            por_pagina,
+            offset
+        )
+
     else:
-        lista = listar_tarefas()
+
+        total = contar_tarefas()
+
+        lista = listar_tarefas_paginadas(
+            por_pagina,
+            offset
+        )
+
+    total_paginas = math.ceil(
+        total / por_pagina
+    )
 
     return render_template(
         "tarefas.html",
         tarefas=lista,
-        busca=busca
+        busca=busca,
+        pagina=pagina,
+        total_paginas=total_paginas
     )
-    
+
+
 @tarefas_bp.route(
     "/tarefas/cadastrar",
     methods=["GET", "POST"]
@@ -97,7 +142,8 @@ def cadastrar():
         "cadastrar_tarefa.html",
         usuarios=usuarios
     )
-    
+
+
 @tarefas_bp.route(
     "/tarefas/editar/<int:id>",
     methods=["GET", "POST"]
@@ -160,7 +206,8 @@ def editar(id):
         tarefa=tarefa,
         usuarios=usuarios
     )
-    
+
+
 @tarefas_bp.route(
     "/tarefas/excluir/<int:id>",
     methods=["POST"]

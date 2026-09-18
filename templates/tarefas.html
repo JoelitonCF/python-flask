@@ -80,4 +80,28 @@ Tarefas
 
 </table>
 
+<br>
+<div class="paginacao">
+    {% if pagina > 1 %}
+    <a href="{{url_for('tarefas.tarefas', busca=busca, pagina=pagina-1)}}">Anterior</a>
+    {% endif %}
+
+    <span>
+        Página {{pagina}}
+        de {{total_paginas}}
+    </span>
+
+    {% if pagina < total_paginas %}
+
+        <a href="{{ url_for(
+            'tarefas.tarefas',
+            busca=busca,
+            pagina=pagina + 1
+        ) }}">
+            Próxima
+        </a>
+
+    {% endif %}
+</div>
+
 {% endblock %}

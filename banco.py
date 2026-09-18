@@ -248,6 +248,47 @@ def listar_tarefas():
 
     return tarefas
 
+def listar_tarefas_paginadas(limite, offset):
+    conexao = conectar()
+    cursor = conexao.cursor()
+    
+    cursor.execute("""
+                   SELECT 
+                        tarefas.id,
+                        tarefas.titulo,
+                        tarefas.usuario_id,
+                        usuarios.nome AS usuario_nome
+                    FROM tarefas
+                    
+                    JOIN usuarios
+                        ON tarefas.usuario_id = usuarios.id
+                    
+                    ORDER BY tarefas.id DESC
+                    
+                    LIMIT ?
+                    OFFSET ?
+                   """, (limite, offset))
+    
+    tarefas = cursor.fetchall()
+    
+    conexao.close()
+    
+    return tarefas
+
+def contar_tarefas():
+    conexao = conectar()
+    
+    cursor = conexao.cursor()
+    
+    cursor.execute("""
+                   SELECT COUNT(*) 
+                   FROM tarefas
+                   """)
+    total = cursor.fetchone()[0]
+    
+    conexao.close()
+    
+    return total
 
 def buscar_tarefa(id):
     conexao = conectar()
@@ -357,3 +398,73 @@ def buscar_tarefas(termo):
     conexao.close()
     
     return tarefas
+
+def buscar_tarefas_paginadas(
+    termo,
+    limite,
+    offset
+):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    valor = f"%{termo}%"
+
+    cursor.execute("""
+        SELECT
+            tarefas.id,
+            tarefas.titulo,
+            tarefas.usuario_id,
+            usuarios.nome AS usuario_nome
+
+        FROM tarefas
+
+        JOIN usuarios
+            ON tarefas.usuario_id = usuarios.id
+
+        WHERE tarefas.titulo LIKE ?
+           OR usuarios.nome LIKE ?
+
+        ORDER BY tarefas.id DESC
+
+        LIMIT ?
+        OFFSET ?
+    """, (
+        valor,
+        valor,
+        limite,
+        offset
+    ))
+
+    tarefas = cursor.fetchall()
+
+    conexao.close()
+
+    return tarefas
+
+
+def contar_tarefas_busca(termo):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    valor = f"%{termo}%"
+
+    cursor.execute("""
+        SELECT COUNT(*)
+
+        FROM tarefas
+
+        JOIN usuarios
+            ON tarefas.usuario_id = usuarios.id
+
+        WHERE tarefas.titulo LIKE ?
+           OR usuarios.nome LIKE ?
+    """, (
+        valor,
+        valor
+    ))
+
+    total = cursor.fetchone()[0]
+
+    conexao.close()
+
+    return total
