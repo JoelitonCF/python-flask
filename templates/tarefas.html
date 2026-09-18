@@ -16,6 +16,13 @@ Tarefas
 
 <br><br>
 
+<form class="form-search" method="GET">
+    <input type="text" name="busca" placeholder="Pesquisar tarefa..." value="{{busca}}">
+    <button type="submit">Buscar</button>
+    <a href="{{url_for('tarefas.tarefas')}}">Limpar</a>
+</form>
+<br>
+
 <table class="tabela">
 
     <thead>
@@ -28,6 +35,7 @@ Tarefas
     </thead>
 
     <tbody>
+        {% if tarefas %}
 
         {% for tarefa in tarefas %}
 
@@ -62,6 +70,11 @@ Tarefas
         </tr>
 
         {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="4">Nenhuma tarefa encontrada</td>
+        </tr>
+        {% endif %}
 
     </tbody>
 

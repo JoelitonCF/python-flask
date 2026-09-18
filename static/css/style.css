@@ -1,136 +1,158 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
 }
 
 header {
-    background-color: #222;
-    color: white;
-    padding: 20px;
+  background-color: #222;
+  color: white;
+  padding: 20px;
 }
 
 main {
-    padding: 30px;
+  padding: 30px;
 }
 
 nav {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
 nav a {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
 
 nav a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 nav form {
-    margin: 0;
+  margin: 0;
 }
-
 
 /* FORMULÁRIOS */
 
 .formulario {
-    max-width: 400px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
+  max-width: 400px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .formulario label {
-    display: block;
-    margin-top: 10px;
+  display: block;
+  margin-top: 10px;
 }
 
 .formulario input,
 .formulario select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
 }
 
 .formulario button {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
+.form-search {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+}
+
+.form-search input {
+  width: 400px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.form-search button {
+  padding: 8px 12px;
+  background-color: #28a745;
+}
+
+.form-search a {
+  text-decoration: none;
+  color: #fcfbfa;
+  background-color: #f58250;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
 
 /* TABELA */
 
 .tabela {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
 }
 
 .tabela th,
 .tabela td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-    color: #222;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  color: #222;
 }
 
 .tabela th {
-    background-color: #eee;
+  background-color: #eee;
 }
-
 
 /* BOTÕES */
 
 .botao {
-    display: inline-block;
-    padding: 8px 12px;
-    text-decoration: none;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  display: inline-block;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .botao-editar {
-    background-color: #ffc107;
+  background-color: #ffc107;
 }
 
 .botao-excluir {
-    background-color: #dc3545;
-    color: white;
+  background-color: #dc3545;
+  color: white;
 }
 
 .botao-novo {
-    background-color: #28a745;
-    color: white;
+  background-color: #28a745;
+  color: white;
 }
 
 .form-excluir {
-    display: inline;
+  display: inline;
 }
-
 
 /* MENSAGENS */
 
 .success {
-    background-color: #b2f3c1;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
+  background-color: #b2f3c1;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
 }
 
 .error {
-    background-color: #f3c3c7;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
+  background-color: #f3c3c7;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
 }
 
 .warning {
-    background-color: #efe7cc;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
+  background-color: #efe7cc;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
 }

@@ -329,3 +329,31 @@ def excluir_tarefa(id):
 
     finally:
         conexao.close()
+        
+        
+def buscar_tarefas(termo):
+    conexao = conectar()
+    cursor = conexao.cursor()
+    
+    valor = f"%{termo}%"
+    
+    cursor.execute("""
+                   SELECT 
+                        tarefas.id, 
+                        tarefas.titulo,
+                        tarefas.usuario_id,
+                        usuarios.nome AS usuario_nome
+                    FROM tarefas
+                    
+                    JOIN usuarios
+                        ON tarefas.usuario_id = usuarios.id
+                    
+                    WHERE tarefas.titulo LIKE ? or usuarios.nome LIKE ?
+                   """,(
+                       valor, valor
+                   ))
+    tarefas = cursor.fetchall()
+    
+    conexao.close()
+    
+    return tarefas

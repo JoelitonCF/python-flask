@@ -17,7 +17,8 @@ from banco import (
     inserir_tarefa,
     buscar_tarefa,
     atualizar_tarefa,
-    excluir_tarefa
+    excluir_tarefa,
+    buscar_tarefas
 )
 
 tarefas_bp = Blueprint(
@@ -28,12 +29,20 @@ tarefas_bp = Blueprint(
 @tarefas_bp.route("/tarefas")
 @login_required
 def tarefas():
-
-    lista = listar_tarefas()
+    
+    busca = request.args.get(
+        "busca",""
+    ).strip()
+    print(busca)
+    if busca:
+        lista = buscar_tarefas(busca)
+    else:
+        lista = listar_tarefas()
 
     return render_template(
         "tarefas.html",
-        tarefas=lista
+        tarefas=lista,
+        busca=busca
     )
     
 @tarefas_bp.route(
@@ -159,7 +168,7 @@ def editar(id):
 @login_required
 def excluir(id):
 
-    tarefa = buscar_tarefa(id)
+    tarefa = buscar_tarefas(id)
 
     if tarefa is None:
         abort(404)
