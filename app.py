@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template
-
 from dotenv import load_dotenv
+from flask_wtf.csrf import CSRFProtect
 
 from banco import  criar_banco
 from routes.usuarios import usuarios_bp
@@ -20,6 +20,8 @@ if not secret_key:
     )
 
 app.config["SECRET_KEY"] = secret_key
+
+csrf = CSRFProtect(app)
 
 app.register_blueprint(usuarios_bp)
 app.register_blueprint(auth_bp)

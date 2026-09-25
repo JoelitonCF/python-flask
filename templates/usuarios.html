@@ -29,9 +29,12 @@ Usuários
             <td>{{usuario.idade}}</td>
             <td>{{usuario.cidade}}</td>
             <td>
-                <a href="{{ url_for('usuarios.editar', id=usuario.id) }}" class="botao botao-editar" style="text-decoration: none;">Editar</a>
+                <a href="{{ url_for('usuarios.editar', id=usuario.id) }}" class="botao botao-editar"
+                    style="text-decoration: none;">Editar</a>
                 <form action="{{ url_for('usuarios.excluir', id=usuario.id) }}" method="POST" class="form-excluir""
-                    onsubmit="return confirm('Deseja realmente excluir este usuário?')">
+
+                    onsubmit=" return confirm('Deseja realmente excluir este usuário?')">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button type="submit" class="botao botao-excluir">Excluir</button>
                 </form>
             </td>

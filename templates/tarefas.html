@@ -59,7 +59,7 @@ Tarefas
 
                 <form action="{{ url_for('tarefas.excluir', id=tarefa.id) }}" method="POST" class="form-excluir"
                     onsubmit="return confirm('Deseja realmente excluir esta tarefa?')">
-
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button type="submit" class="botao botao-excluir">
                         Excluir
                     </button>
@@ -91,17 +91,15 @@ Tarefas
         de {{total_paginas}}
     </span>
 
-    {% if pagina < total_paginas %}
-
-        <a href="{{ url_for(
+    {% if pagina < total_paginas %} <a href="{{ url_for(
             'tarefas.tarefas',
             busca=busca,
             pagina=pagina + 1
         ) }}">
-            Próxima
+        Próxima
         </a>
 
-    {% endif %}
+        {% endif %}
 </div>
 
 {% endblock %}

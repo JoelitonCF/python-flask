@@ -9,6 +9,7 @@ Cadastro
 <h2>Cadastro de usuário</h2>
 
 <form method="POST" class="formulario">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <label>Nome:</label>
     <input type="text" name="nome" required>

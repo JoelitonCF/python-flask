@@ -2,54 +2,45 @@
 
 
 {% block titulo %}
-    Nova tarefa
+Nova tarefa
 {% endblock %}
 
 
 {% block conteudo %}
 
-    <h2>Nova tarefa</h2>
+<h2>Nova tarefa</h2>
 
-    <form
-        method="POST"
-        class="formulario"
-    >
+<form method="POST" class="formulario">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-        <label>
-            Título:
-        </label>
+    <label>
+        Título:
+    </label>
 
-        <input
-            type="text"
-            name="titulo"
-            required
-        >
+    <input type="text" name="titulo" required>
 
 
-        <label>
-            Responsável:
-        </label>
+    <label>
+        Responsável:
+    </label>
 
-        <select
-            name="usuario_id"
-            required
-        >
+    <select name="usuario_id" required>
 
-            {% for usuario in usuarios %}
+        {% for usuario in usuarios %}
 
-                <option value="{{ usuario.id }}">
-                    {{ usuario.nome }}
-                </option>
+        <option value="{{ usuario.id }}">
+            {{ usuario.nome }}
+        </option>
 
-            {% endfor %}
+        {% endfor %}
 
-        </select>
+    </select>
 
 
-        <button type="submit">
-            Cadastrar
-        </button>
+    <button type="submit">
+        Cadastrar
+    </button>
 
-    </form>
+</form>
 
 {% endblock %}
