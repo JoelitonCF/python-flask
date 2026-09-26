@@ -7,6 +7,7 @@ from banco import  criar_banco
 from routes.usuarios import usuarios_bp
 from routes.auth import auth_bp
 from routes.tarefas import tarefas_bp
+from routes.api import api_bp
 
 load_dotenv()
 
@@ -26,6 +27,8 @@ csrf = CSRFProtect(app)
 app.register_blueprint(usuarios_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(tarefas_bp)
+app.register_blueprint(api_bp)
+csrf.exempt(api_bp)
    
 criar_banco()
 
